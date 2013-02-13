@@ -71,6 +71,12 @@ dir.create("figs")
 #  figure 1: mitotic
 #-------------------
 
+#Plot
+tiff(file = "figs/fig1.tiff", width = 7.3, height = 3.5, units = "in", res = 300, compression="lzw")
+par(mar = c(2,2,2,1),       #plot margin
+mgp = c(1, 0.4, 0),
+mfrow = c(1, 2))     #axis and label margin
+
 #
 #
 #  fig1A: metabric mitotic
@@ -93,17 +99,12 @@ colnames(X)=c("time","status", "x")
 fit.cin <- survfit(Surv(time, status) ~ x, data = data.frame(X))
 pval.cin<-summary(coxph(Surv(time, status) ~ metafeature, ))$logtest[3]
 
-#Plot
-tiff(file = "figs/fig1A.tiff", width = 3.5, height = 3.5, units = "in", res = 300, compression="lzw")
-par(mar = c(2,2,2,1),       #plot margin
-mgp = c(1, 0.4, 0))     #axis and label margin
-
 plot(
 fit.cin,
 col = c("18","20"),     #Red, Blue
 lwd = 1:1,
 mark.time = FALSE,
-main = "METABRIC",
+main = "(A) METABRIC",
 xlab = "Days",
 ylab = "% Survived",
 yscale = 100,
@@ -112,8 +113,7 @@ cex.axis = 0.5,
 cex.lab = 0.5)
 
 legend(2000, 0.4, c("High", "Low"),title="Mitotic CIN attractor expression level", lwd=1:1, col=c("18","20"),cex=0.4)
-text(2000,0.6,paste("P-value < 2E-16 "),cex=0.5)
-dev.off()       #Write
+text(3000,0.5,paste("P-value < 2E-16 "),cex=0.5)
 
 #
 #
@@ -136,17 +136,12 @@ colnames(X)=c("time","status", "x")
 fit.cin.oslo <- survfit(Surv(time, status) ~ x, data = data.frame(X))
 pval.cin.oslo<-summary(coxph(Surv(time, status) ~ metafeature, ))$logtest[3]
 
-#Plot
-tiff(file = "figs/fig1B.tiff", width = 3.5, height = 3.5, units = "in", res = 300, compression="lzw")
-par(mar = c(2,2,2,1),       #plot margin
-mgp = c(1, 0.4, 0))     #axis and label margin
-
 plot(
 fit.cin.oslo,
 col = c("18","20"),     #Red, Blue
 lwd = 1:1,
 mark.time = FALSE,
-main = "OSLOVAL",
+main = "(B) OSLOVAL",
 xlab = "Days",
 ylab = "% Survived",
 yscale = 100,
@@ -156,18 +151,29 @@ cex.lab = 0.5)
 
 legend(2500, 0.9, c("High", "Low"),title="Mitotic CIN attractor expression level", lwd=1:1, col=c("18","20"),cex=0.4)
 text(3000,0.3,paste("P-value =", round(pval.cin.oslo, 4)),cex=0.5)
+
 dev.off()       #Write
+
 
 #----------------------
 #  figure 2: LYM in ER-
 #----------------------
+
+
+
+#Plot
+tiff(file = "figs/fig2.tiff", width = 7.3, height = 3.5, units = "in", res = 300, compression="lzw")
+par(
+mar = c(2,2,2,1),       #plot margin
+mgp = c(1, 0.4, 0),     #axis and label margin
+mfrow = c(1, 2)
+)         #2 columns
 
 #
 #
 # fig2A: LYM | ER- metabric
 #
 #
-
 ##ER- Samples
 #idx.erN = (meta["er",] < 0 & meta["erbb2", ] < 0)
 idx.erN = clnc$ER.Expr=="-" 
@@ -185,20 +191,13 @@ colnames(X)=c("time","status", "x")
 fit.erN <- survfit(Surv(time, status) ~ x, data = data.frame(X))
 pval.erN<-summary(coxph(Surv(time, status) ~ metafeature, ))$logtest[3]
 
-#Plot
-tiff(file = "figs/fig2A.tiff", width = 3.5, height = 3.5, units = "in", res = 300, compression="lzw")
-par(
-mar = c(2,2,2,1),       #plot margin
-mgp = c(1, 0.4, 0)     #axis and label margin
-)         #2 columns
-
 #ER- Samples
 plot(
 fit.erN,
 col = c("18","20"),     #Red, Blue
 lwd = 1:1,
 mark.time = FALSE,
-main = "METABRIC ER-",
+main = "(A) METABRIC ER-",
 xlab = "Days",
 ylab = "% Survived",
 yscale = 100,
@@ -208,8 +207,6 @@ cex.lab = 0.5)
 
 legend(2000, 0.3, c("High", "Low"),title="Lymphocyte attractor expression level", lwd=1:1, col=c("18","20"),cex=0.4)
 text(3000,0.4,paste("P-value = ",round(pval.erN,4)),cex=0.5)
-
-dev.off()
 
 #
 #
@@ -232,20 +229,13 @@ colnames(X)=c("time","status", "x")
 fit.erN.oslo <- survfit(Surv(time, status) ~ x, data = data.frame(X))
 pval.erN.oslo<-summary(coxph(Surv(time, status) ~ metafeature, ))$logtest[3]
 
-#Plot
-tiff(file = "figs/fig2B.tiff", width = 3.5, height = 3.5, units = "in", res = 300, compression="lzw")
-par(
-mar = c(2,2,2,1),       #plot margin
-mgp = c(1, 0.4, 0)     #axis and label margin
-)         #2 columns
-
 #ER- Samples
 plot(
 fit.erN.oslo,
 col = c("18","20"),     #Red, Blue
 lwd = 1:1,
 mark.time = FALSE,
-main = "OSLOVAL ER-",
+main = "(B) OSLOVAL ER-",
 xlab = "Days",
 ylab = "% Survived",
 yscale = 100,
@@ -310,6 +300,14 @@ dev.off()       #Write
 # figure 4: SUSD3-FGD3 metagene
 #------------
 
+
+tiff(file = "figs/fig4.tiff", width = 7.3, height = 3.5, units = "in", res = 300, compression="lzw")
+par(
+mar = c(2,2,2,1),       #plot margin
+mgp = c(1, 0.4, 0),    #axis and label margin
+mfrow=c(1, 2)
+)
+
 #
 #
 # fig4A: SUSD3-FGD3 metabric
@@ -332,18 +330,12 @@ colnames(X)=c("time","status", "x")
 fit.susd3 <- survfit(Surv(time, status) ~ x, data = data.frame(X))
 pval.susd3<-summary(coxph(Surv(time, status) ~ metafeature, ))$logtest[3]
 
-tiff(file = "figs/fig4A.tiff", width = 3.5, height = 3.5, units = "in", res = 300, compression="lzw")
-par(
-mar = c(2,2,2,1),       #plot margin
-mgp = c(1, 0.4, 0)     #axis and label margin
-)
-
 plot(
 fit.susd3,
 col = c("18","20"),     #Red, Blue
 lwd = 1:1,
 mark.time = FALSE,
-main = "METABRIC",
+main = "(A) METABRIC",
 xlab = "Days",
 ylab = "% Survived",
 yscale = 100,
@@ -352,9 +344,7 @@ cex.axis = 0.5,
 cex.lab = 0.5)
 
 legend(1500, 0.4, c("High", "Low"),title="SUSD3-FGD3 metagene expression level", lwd=1:1, col=c("18","20"),cex=0.4)
-text(2000,0.6,paste("P-value < 2E-16 "),cex=0.5)
-
-dev.off()       #Write
+text(2500,0.5,paste("P-value < 2E-16 "),cex=0.5)
 
 #
 #
@@ -376,18 +366,12 @@ colnames(X)=c("time","status", "x")
 fit.susd3.oslo <- survfit(Surv(time, status) ~ x, data = data.frame(X))
 pval.susd3.oslo<-summary(coxph(Surv(time, status) ~ metafeature, ))$logtest[3]
 
-tiff(file = "figs/fig4B.tiff", width = 3.5, height = 3.5, units = "in", res = 300, compression="lzw")
-par(
-mar = c(2,2,2,1),       #plot margin
-mgp = c(1, 0.4, 0)     #axis and label margin
-)
-
 plot(
 fit.susd3.oslo,
 col = c("18","20"),     #Red, Blue
 lwd = 1:1,
 mark.time = FALSE,
-main = "OSLOVAL",
+main = "(B) OSLOVAL",
 xlab = "Days",
 ylab = "% Survived",
 yscale = 100,
@@ -408,19 +392,19 @@ dev.off()       #Write
 # figure 5: SUSD3, FGD3, ESR1
 #------------
 
+
+tiff(file = "figs/fig5.tiff", width = 7.3, height = 3.5, units = "in", res = 300, compression="lzw")
+par(
+mar = c(2,2,2,1),       #plot margin
+mgp = c(1, 0.4, 0),      #axis and label margin
+mfrow = c(1, 2)
+)
+
 #
 #
 # SUSD3 vs FGD3
 #
 #
-
-tiff(file = "figs/fig5A.tiff", width = 3.5, height = 3.5, units = "in", res = 300, compression="lzw")
-par(
-mar = c(2,2,2,1),       #plot margin
-mgp = c(1, 0.4, 0)      #axis and label margin
-)
-
-#SUSD3 vs. FGD3
 plot(
 ge["ILMN_1785570",],
 ge["ILMN_1772686",],
@@ -428,14 +412,13 @@ lwd = 1:1,
 pch=20,         #dots
 col="blue",
 cex=0.5,
-main = "Association between expression levels of SUSD3 and FGD3",
+main = "(A) Association between expression levels of SUSD3 and FGD3",
 xlab = "SUSD3",
 ylab = "FGD3",
 cex.main = 0.5,
 cex.axis = 0.5,
 cex.lab = 0.5)
 
-dev.off()       #Write
 
 #
 #
@@ -443,13 +426,6 @@ dev.off()       #Write
 #
 #
 
-tiff(file = "figs/fig5B.tiff", width = 3.5, height = 3.5, units = "in", res = 300, compression="lzw")
-par(
-mar = c(2,2,2,1),       #plot margin
-mgp = c(1, 0.4, 0)      #axis and label margin
-)
-
-#SUSD3 vs. ESR1
 plot(
 meta["susd3",],
 ge["ILMN_1678535",],
@@ -457,7 +433,7 @@ lwd = 1:1,
 pch=20,         #dots
 col="blue",
 cex=0.5,
-main = "SUSD3-FGD3 metagene vs. ESR1 expression level",
+main = "(B) SUSD3-FGD3 metagene vs. ESR1 expression level",
 xlab = "SUSD3-FGD3 metagene",
 ylab = "ESR1",
 cex.main = 0.5,
