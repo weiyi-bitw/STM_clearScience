@@ -3,6 +3,7 @@ require(devtools)
 require(Biobase)
 require(survival)
 require(BCC)
+require(ggplot2)
 
 install_github(repo="DreamBox7", username="weiyi-bitw", ref="master")
 library(DreamBox7)
@@ -106,14 +107,14 @@ lwd = 1:1,
 mark.time = FALSE,
 main = "(A) METABRIC",
 xlab = "Days",
-ylab = "% Survived",
+ylab = "Survival (%)",
 yscale = 100,
 cex.main = 0.5,
 cex.axis = 0.5,
 cex.lab = 0.5)
 
-legend(2000, 0.4, c("High", "Low"),title="Mitotic CIN attractor expression level", lwd=1:1, col=c("18","20"),cex=0.4)
-text(3000,0.5,paste("P-value < 2E-16 "),cex=0.5)
+legend(2500, 0.4, c("High", "Low"),title="CIN", lwd=1:1, col=c("18","20"),cex=0.4)
+text(3000,0.5, expression(paste(italic("P value < " ), 2 %*% 10^{-16} )),cex=0.5, font=3)
 
 #
 #
@@ -143,14 +144,14 @@ lwd = 1:1,
 mark.time = FALSE,
 main = "(B) OSLOVAL",
 xlab = "Days",
-ylab = "% Survived",
+ylab = "Survival (%)",
 yscale = 100,
 cex.main = 0.5,
 cex.axis = 0.5,
 cex.lab = 0.5)
 
-legend(2500, 0.9, c("High", "Low"),title="Mitotic CIN attractor expression level", lwd=1:1, col=c("18","20"),cex=0.4)
-text(3000,0.3,paste("P-value =", round(pval.cin.oslo, 4)),cex=0.5)
+legend(2500, 0.9, c("High", "Low"),title="CIN", lwd=1:1, col=c("18","20"),cex=0.4)
+text(3000,0.3,paste("P value =", round(pval.cin.oslo, 4)),cex=0.5, font=3)
 
 dev.off()       #Write
 
@@ -199,14 +200,14 @@ lwd = 1:1,
 mark.time = FALSE,
 main = "(A) METABRIC ER-",
 xlab = "Days",
-ylab = "% Survived",
+ylab = "Survival (%)",
 yscale = 100,
 cex.main = 0.5,
 cex.axis = 0.5,
 cex.lab = 0.5)
 
-legend(2000, 0.3, c("High", "Low"),title="Lymphocyte attractor expression level", lwd=1:1, col=c("18","20"),cex=0.4)
-text(3000,0.4,paste("P-value = ",round(pval.erN,4)),cex=0.5)
+legend(2700, 0.3, c("High", "Low"),title="LYM", lwd=1:1, col=c("18","20"),cex=0.4)
+text(3000,0.4,paste("P value = ",round(pval.erN,4)),cex=0.5, font=3)
 
 #
 #
@@ -237,14 +238,14 @@ lwd = 1:1,
 mark.time = FALSE,
 main = "(B) OSLOVAL ER-",
 xlab = "Days",
-ylab = "% Survived",
+ylab = "Survival (%)",
 yscale = 100,
 cex.main = 0.5,
 cex.axis = 0.5,
 cex.lab = 0.5)
 
-legend(2000, 0.9, c("High", "Low"),title="Lymphocyte attractor expression level", lwd=1:1, col=c("18","20"),cex=0.4)
-text(3000,0.2,paste("P-value = ",round(pval.erN.oslo,4)),cex=0.5)
+legend(3000, 0.9, c("High", "Low"),title="LYM", lwd=1:1, col=c("18","20"),cex=0.4)
+text(3000,0.2,paste("P value = ",round(pval.erN.oslo,4)),cex=0.5)
 
 dev.off()
 
@@ -285,14 +286,14 @@ lwd = 1:1,
 mark.time = FALSE,
 main = "METABRIC ER+ | lymph node number > 4",
 xlab = "Days",
-ylab = "% Survived",
+ylab = "Survival (%)",
 yscale = 100,
 cex.main = 0.5,
 cex.axis = 0.5,
 cex.lab = 0.5)
 
-legend(2000, 0.9, c("High", "Low"),title="Lymphocyte attractor expression level", lwd=1:1, col=c("18","20"),cex=0.4)
-text(3000,0.1,paste("P-value = ",round(pval.erP,4)),cex=0.5)
+legend(2700, 0.9, c("High", "Low"),title="LYM", lwd=1:1, col=c("18","20"),cex=0.4)
+text(3000,0.1,paste("P value = ",round(pval.erP,4)),cex=0.5, font=3)
 
 dev.off()       #Write
 
@@ -337,14 +338,14 @@ lwd = 1:1,
 mark.time = FALSE,
 main = "(A) METABRIC",
 xlab = "Days",
-ylab = "% Survived",
+ylab = "Survival (%)",
 yscale = 100,
 cex.main = 0.5,
 cex.axis = 0.5,
 cex.lab = 0.5)
 
-legend(1500, 0.4, c("High", "Low"),title="SUSD3-FGD3 metagene expression level", lwd=1:1, col=c("18","20"),cex=0.4)
-text(2500,0.5,paste("P-value < 2E-16 "),cex=0.5)
+legend(1800, 0.4, c("High", "Low"),title="FGD3-SUSD3 metagene", lwd=1:1, col=c("18","20"),cex=0.4)
+text(2500,0.5,expression(paste( italic("P value <"), 2 %*% 10^{-16} )),cex=0.5)
 
 #
 #
@@ -373,14 +374,14 @@ lwd = 1:1,
 mark.time = FALSE,
 main = "(B) OSLOVAL",
 xlab = "Days",
-ylab = "% Survived",
+ylab = "Survival (%)",
 yscale = 100,
 cex.main = 0.5,
 cex.axis = 0.5,
 cex.lab = 0.5)
 
-legend(2500, 0.95, c("High", "Low"),title="SUSD3-FGD3 metagene expression level", lwd=1:1, col=c("18","20"),cex=0.4)
-text(3000,0.4,paste("P-value =", round(pval.susd3.oslo, 4)),cex=0.5)
+legend(2500, 0.95, c("High", "Low"),title="FGD3-SUSD3 metagene", lwd=1:1, col=c("18","20"),cex=0.4)
+text(3000,0.4,paste("P value =", round(pval.susd3.oslo, 4)),cex=0.5, font=3)
 
 dev.off()       #Write
 
@@ -406,15 +407,15 @@ mfrow = c(1, 2)
 #
 #
 plot(
-ge["ILMN_1785570",],
 ge["ILMN_1772686",],
+ge["ILMN_1785570",],
 lwd = 1:1,
 pch=20,         #dots
 col="blue",
 cex=0.5,
-main = "(A) Association between expression levels of SUSD3 and FGD3",
-xlab = "SUSD3",
-ylab = "FGD3",
+main = "(A) FGD3 vs. SUSD3 expression level",
+ylab = "SUSD3",
+xlab = "FGD3",
 cex.main = 0.5,
 cex.axis = 0.5,
 cex.lab = 0.5)
@@ -433,8 +434,8 @@ lwd = 1:1,
 pch=20,         #dots
 col="blue",
 cex=0.5,
-main = "(B) SUSD3-FGD3 metagene vs. ESR1 expression level",
-xlab = "SUSD3-FGD3 metagene",
+main = "(B) FGD3-SUSD3 metagene vs. ESR1 expression level",
+xlab = "FGD3-SUSD3 metagene",
 ylab = "ESR1",
 cex.main = 0.5,
 cex.axis = 0.5,
