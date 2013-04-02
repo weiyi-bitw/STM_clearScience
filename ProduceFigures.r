@@ -17,6 +17,12 @@ data(attractome.minimalist)
 
 synapseLogin()
 
+#=====================================================================================
+#
+#  I didn't change this part. It seems I don't have access to syn1710250?
+#
+#====================================================================================
+
 metabric = loadEntity('syn1465025')$objects
 #
 # Since I don't have read access to the full metabric now, 
@@ -47,6 +53,8 @@ intExprEset = loadEntity("syn1449475")$objects$xExprDat
 
 oslo = list(expr = intExprEset, cnv = intCnvEset, clnc = intClncDat, surv = intSurvObject)
 
+#================================================================================================
+
 clnc.oslo = lazyImputeDFClncOslo(oslo$clnc)
 clinical.oslo <- expandClncOslo(clnc.oslo)
 
@@ -66,6 +74,17 @@ surv.oslo = oslo$surv
 #	survival curves
 #===============================================
 
+# for quartz device...
+quartzFonts() # lists current mappings
+     
+# Add a mapping for Myriad:
+# pass in a vector of font filenames in the order: Plain, Bold, Italic, Bold-Italic
+quartzFonts(
+  Myriad = quartzFont(
+    c("MyriadPro-Regular", "MyriadPro-Semibold", "MyriadPro-It", "MyriadPro-SemiboldIt")
+  )
+)
+     
 dir.create("figs")
 
 #-------------------
@@ -73,9 +92,9 @@ dir.create("figs")
 #-------------------
 
 #Plot
-tiff(file = "figs/fig1.tiff", width = 7.3, height = 3.5, units = "in", res = 300, compression="lzw")
-par(mar = c(2,2,2,1),       #plot margin
-mgp = c(1, 0.4, 0),
+tiff(file = "figs/fig1.tiff", width = 7.3, height = 3.5, units = "in", res = 300, compression="lzw", pointsize=8)
+par(mar = c(2.5,2.5,2.5,1),       #plot margin
+mgp = c(1.2, 0.3, 0),
 mfrow = c(1, 2))     #axis and label margin
 
 #
@@ -105,16 +124,18 @@ fit.cin,
 col = c("18","20"),     #Red, Blue
 lwd = 1:1,
 mark.time = FALSE,
-main = "(A) METABRIC",
+#main = "A",
 xlab = "Days",
 ylab = "Survival (%)",
 yscale = 100,
-cex.main = 0.5,
-cex.axis = 0.5,
-cex.lab = 0.5)
+cex.main = 1,
+cex.axis = 0.9,
+cex.lab = 1,
+family = "Myriad")
 
-legend(2500, 0.4, c("High", "Low"),title="CIN", lwd=1:1, col=c("18","20"),cex=0.4)
-text(3000,0.5, expression(paste(italic("P value < " ), 2 %*% 10^{-16} )),cex=0.5, font=3)
+
+legend(2200, 0.4, c("High", "Low"),title="CIN", lwd=1:1, col=c("18","20"),cex=1)
+text(3000,0.5, expression(paste(italic("P"), " value < ", 2 %*% 10^{-16} )),cex=1, family = "Myriad")
 
 #
 #
@@ -142,16 +163,17 @@ fit.cin.oslo,
 col = c("18","20"),     #Red, Blue
 lwd = 1:1,
 mark.time = FALSE,
-main = "(B) OSLOVAL",
+#main = "B",
 xlab = "Days",
 ylab = "Survival (%)",
 yscale = 100,
-cex.main = 0.5,
-cex.axis = 0.5,
-cex.lab = 0.5)
+cex.main = 1,
+cex.axis = 0.9,
+cex.lab = 1,
+family = "Myriad")
 
-legend(2500, 0.9, c("High", "Low"),title="CIN", lwd=1:1, col=c("18","20"),cex=0.4)
-text(3000,0.3,paste("P value =", round(pval.cin.oslo, 4)),cex=0.5, font=3)
+legend(3500, 0.9, c("High", "Low"),title="CIN", lwd=1:1, col=c("18","20"),cex=1)
+text(3000,0.3,substitute(paste( italic("P"), " value = ", k), list(k=round(pval.cin.oslo, 4))), cex=1, family="Myriad")
 
 dev.off()       #Write
 
@@ -163,11 +185,11 @@ dev.off()       #Write
 
 
 #Plot
-tiff(file = "figs/fig2.tiff", width = 7.3, height = 3.5, units = "in", res = 300, compression="lzw")
+tiff(file = "figs/fig2.tiff", width = 3.5, height = 10.5, units = "in", res = 300, compression="lzw", pointsize=12)
 par(
-mar = c(2,2,2,1),       #plot margin
-mgp = c(1, 0.4, 0),     #axis and label margin
-mfrow = c(1, 2)
+mar = c(2.5,3,2.5,1),       #plot margin
+mgp = c(1.5, 0.3, 0),     #axis and label margin
+mfrow = c(3, 1)
 )         #2 columns
 
 #
@@ -198,16 +220,17 @@ fit.erN,
 col = c("18","20"),     #Red, Blue
 lwd = 1:1,
 mark.time = FALSE,
-main = "(A) METABRIC ER-",
+#main = "A",
 xlab = "Days",
 ylab = "Survival (%)",
 yscale = 100,
-cex.main = 0.5,
-cex.axis = 0.5,
-cex.lab = 0.5)
+cex.main = 1,
+cex.axis = 0.9,
+cex.lab = 1, 
+family = "Myriad")
 
-legend(2700, 0.3, c("High", "Low"),title="LYM", lwd=1:1, col=c("18","20"),cex=0.4)
-text(3000,0.4,paste("P value = ",round(pval.erN,4)),cex=0.5, font=3)
+legend(2300, 0.3, c("High", "Low"),title="LYM", lwd=1:1, col=c("18","20"),cex=1)
+text(3000,0.4,substitute(paste( italic("P"), " value = ",k ), list(k=round(pval.erN,4))),cex=1, family = "Myriad")
 
 #
 #
@@ -236,21 +259,20 @@ fit.erN.oslo,
 col = c("18","20"),     #Red, Blue
 lwd = 1:1,
 mark.time = FALSE,
-main = "(B) OSLOVAL ER-",
+#main = "B",
 xlab = "Days",
 ylab = "Survival (%)",
 yscale = 100,
-cex.main = 0.5,
-cex.axis = 0.5,
-cex.lab = 0.5)
+cex.main = 1,
+cex.axis = 0.9,
+cex.lab = 1, 
+family = "Myriad")
 
-legend(3000, 0.9, c("High", "Low"),title="LYM", lwd=1:1, col=c("18","20"),cex=0.4)
-text(3000,0.2,paste("P value = ",round(pval.erN.oslo,4)),cex=0.5)
-
-dev.off()
+legend(3000, 0.9, c("High", "Low"),title="LYM", lwd=1:1, col=c("18","20"),cex=1)
+text(3000,0.2,substitute(paste( italic("P"), " value = ", k ),list(k=round(pval.erN.oslo, 4))),cex=1, family = "Myriad")
 
 #-------------------
-# figure 3: LYM in ER+ with positive lymph nodes
+# figure 2C: LYM in ER+ with positive lymph nodes
 #-------------------
 
 # NOTE: OSLO does not have enough samples with ER+ / lymNum+ 
@@ -272,46 +294,89 @@ colnames(X)=c("time","status", "x")
 fit.erP <- survfit(Surv(time, status) ~ x, data = data.frame(X))
 pval.erP<-summary(coxph(Surv(time, status) ~ metafeature, ))$logtest[3]
 
-
-tiff(file = "figs/fig3.tiff", width = 3.5, height = 3.5, units = "in", res = 300, compression="lzw")
-par(
-mar = c(2,2,2,1),       #plot margin
-mgp = c(1, 0.4, 0)     #axis and label margin
-)
 #Positive lymph node number >3 Samples
 plot(
 fit.erP,
 col = c("18","20"),     #Red, Blue
 lwd = 1:1,
 mark.time = FALSE,
-main = "METABRIC ER+ | lymph node number > 4",
+#main = "METABRIC ER+ | lymph node number > 4",
 xlab = "Days",
 ylab = "Survival (%)",
 yscale = 100,
-cex.main = 0.5,
-cex.axis = 0.5,
-cex.lab = 0.5)
+cex.main = 1,
+cex.axis = 0.9,
+cex.lab = 1,
+family = "Myriad")
 
-legend(2700, 0.9, c("High", "Low"),title="LYM", lwd=1:1, col=c("18","20"),cex=0.4)
-text(3000,0.1,paste("P value = ",round(pval.erP,4)),cex=0.5, font=3)
+legend(3000, 0.95, c("High", "Low"),title="LYM", lwd=1:1, col=c("18","20"),cex=1)
+text(3000,0.1,substitute(paste( italic("P"), " value = ", k ),list(k=round(pval.erP, 4))),cex=1, family = "Myriad" )
 
 dev.off()       #Write
 
 #------------
-# figure 4: SUSD3-FGD3 metagene
+# figure 3: SUSD3-FGD3 metagene
 #------------
 
 
-tiff(file = "figs/fig4.tiff", width = 7.3, height = 3.5, units = "in", res = 300, compression="lzw")
+tiff(file = "figs/fig3.tiff", width = 7.3, height = 7, units = "in", res = 300, compression="lzw", pointsize=11)
 par(
-mar = c(2,2,2,1),       #plot margin
-mgp = c(1, 0.4, 0),    #axis and label margin
-mfrow=c(1, 2)
+mar = c(2.5,3,2.5,1),       #plot margin
+mgp = c(1.5, 0.3, 0),    #axis and label margin
+mfrow=c(2, 2)
 )
+
+
+#------------
+# figure 3A: SUSD3, FGD3, ESR1
+#------------
 
 #
 #
-# fig4A: SUSD3-FGD3 metabric
+# SUSD3 vs FGD3
+#
+#
+plot(
+ge["ILMN_1772686",],
+ge["ILMN_1785570",],
+lwd = 1:1,
+pch=20,         #dots
+col="blue",
+cex=0.5,
+#main = "(A) FGD3 vs. SUSD3 expression level",
+ylab = expression(italic("SUSD3")),
+xlab = expression(italic("FGD3")),
+cex.main = 1,
+cex.axis = 0.9,
+cex.lab = 1,
+family = "Myriad")
+
+
+#
+#
+# fig3B: SUSD3-FGD3 vs ESR1
+#
+#
+
+plot(
+meta["susd3",],
+ge["ILMN_1678535",],
+lwd = 1:1,
+pch=20,         #dots
+col="blue",
+cex=0.5,
+#main = "(B) FGD3-SUSD3 metagene vs. ESR1 expression level",
+xlab = expression(paste( italic("FGD3"),"-", italic("SUSD3"), " metagene")),
+ylab = expression(italic("ESR1")),
+cex.main = 1,
+cex.axis = 0.9,
+cex.lab = 1,
+family = "Myriad")
+
+
+#
+#
+# fig3C: SUSD3-FGD3 metabric
 #
 #
 
@@ -336,20 +401,21 @@ fit.susd3,
 col = c("18","20"),     #Red, Blue
 lwd = 1:1,
 mark.time = FALSE,
-main = "(A) METABRIC",
+#main = "(A) METABRIC",
 xlab = "Days",
 ylab = "Survival (%)",
 yscale = 100,
-cex.main = 0.5,
-cex.axis = 0.5,
-cex.lab = 0.5)
+cex.main = 1,
+cex.axis = 0.9,
+cex.lab = 1,
+family = "Myriad")
 
-legend(1800, 0.4, c("High", "Low"),title="FGD3-SUSD3 metagene", lwd=1:1, col=c("18","20"),cex=0.4)
-text(2500,0.5,expression(paste( italic("P value <"), 2 %*% 10^{-16} )),cex=0.5)
+legend(900, 0.4, c("High", "Low"),title=expression(paste( italic("FGD3"),"-", italic("SUSD3"), " metagene")), lwd=1:1, col=c("18","20"),cex=1)
+text(2500,0.5,expression(paste( italic("P") , " value < ", 2 %*% 10^{-16} )),cex=1, family = "Myriad")
 
 #
 #
-# fig4B: SUSD3-FGD3 OSLO
+# fig3D: SUSD3-FGD3 OSLO
 #
 #
 
@@ -372,73 +438,62 @@ fit.susd3.oslo,
 col = c("18","20"),     #Red, Blue
 lwd = 1:1,
 mark.time = FALSE,
-main = "(B) OSLOVAL",
+#main = "(B) OSLOVAL",
 xlab = "Days",
 ylab = "Survival (%)",
 yscale = 100,
-cex.main = 0.5,
-cex.axis = 0.5,
-cex.lab = 0.5)
+cex.main = 1,
+cex.axis = 0.9,
+cex.lab = 1,
+family = "Myriad")
 
-legend(2500, 0.95, c("High", "Low"),title="FGD3-SUSD3 metagene", lwd=1:1, col=c("18","20"),cex=0.4)
-text(3000,0.4,paste("P value =", round(pval.susd3.oslo, 4)),cex=0.5, font=3)
-
+legend(1500, 0.3, c("High", "Low"),title=expression(paste( italic("FGD3"),"-", italic("SUSD3"), " metagene")), lwd=1:1, col=c("18","20"),cex=1)
+text(3000,0.35,substitute(paste( italic("P"), " value = ", k ),list(k=round(pval.susd3.oslo, 4))),cex=1, , family = "Myriad" )
 dev.off()       #Write
+#---------
+#
+# fig 4
+#
+#--------
 
-#============================
-#	Scatter plots
-#===========================
+# load the predictions made by the model
+load("removingFeaturePredictions.rda")
 
-#------------
-# figure 5: SUSD3, FGD3, ESR1
-#------------
+metafeature = pmat[1,]
+time=surv.oslo[,1]
+status=surv.oslo[,2]
+
+ii = time >= 15*365
+time[ii] = 15*365
+status[ii] = 0
+
+X<-cbind(time,status,as.numeric( metafeature<median(metafeature)))
+colnames(X)=c("time","status", "x")
+fit.m <- survfit(Surv(time, status) ~ x, data = data.frame(X))
+pval.m<-summary(coxph(Surv(time, status) ~ metafeature, ))$logtest[3]
 
 
-tiff(file = "figs/fig5.tiff", width = 7.3, height = 3.5, units = "in", res = 300, compression="lzw")
+tiff(file = "figs/fig4.tiff", width = 3.5, height = 3.5, units = "in", res = 300, compression="lzw", pointsize=8)
 par(
-mar = c(2,2,2,1),       #plot margin
-mgp = c(1, 0.4, 0),      #axis and label margin
-mfrow = c(1, 2)
+mar = c(3,3,1,1),       #plot margin
+mgp = c(1.5, 0.3, 0)     #axis and label margin
 )
-
-#
-#
-# SUSD3 vs FGD3
-#
-#
+#Positive lymph node number >3 Samples
 plot(
-ge["ILMN_1772686",],
-ge["ILMN_1785570",],
+fit.m,
+col = c("18","20"),     #Red, Blue
 lwd = 1:1,
-pch=20,         #dots
-col="blue",
-cex=0.5,
-main = "(A) FGD3 vs. SUSD3 expression level",
-ylab = "SUSD3",
-xlab = "FGD3",
-cex.main = 0.5,
-cex.axis = 0.5,
-cex.lab = 0.5)
+mark.time = FALSE,
+#main = "METABRIC ER+ | lymph node number > 4",
+xlab = "Days",
+ylab = "Survival (%)",
+yscale = 100,
+cex.main = 1,
+cex.axis = 0.9,
+cex.lab = 1,
+family = "Myriad")
 
+legend(500, 0.3, c("Poor", "Good"),title="Predicted survival", lwd=1:1, col=c("18","20"),cex=1)
+text(3500,0.1,expression(paste( italic("P") , " value < ", 2 %*% 10^{-16} ) ),cex=1, family = "Myriad" )
 
-#
-#
-# fig5B: SUSD3-FGD3 vs ESR1
-#
-#
-
-plot(
-meta["susd3",],
-ge["ILMN_1678535",],
-lwd = 1:1,
-pch=20,         #dots
-col="blue",
-cex=0.5,
-main = "(B) FGD3-SUSD3 metagene vs. ESR1 expression level",
-xlab = "FGD3-SUSD3 metagene",
-ylab = "ESR1",
-cex.main = 0.5,
-cex.axis = 0.5,
-cex.lab = 0.5)
 dev.off()       #Write
-
