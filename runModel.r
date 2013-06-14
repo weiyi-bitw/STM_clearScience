@@ -12,18 +12,20 @@ library(DreamBox7)
 synapseLogin()
 
 # Load metabric data
-metabric = loadEntity('syn1465025')$objects
-#
-# Since I don't have read access to the full metabric now, 
-# I used the following to load a local copy
-#
-#load("~/workspace/data/dream7/fullrenorm/metabric2000.rdata")
+clnc = loadEntity("syn1710260")$objects[[1]]
+cna = loadEntity("syn1710262")$objects[[1]]
+survdss = loadEntity("syn1730400")$objects[[1]]
+expr = loadEntity("syn1710275")$objects[[1]]
+surv = loadEntity("syn1710277")$objects[[1]]
+
+metabric = list(expr = expr, cnv = cna, clnc = clnc, surv = surv, survdss = survdss)
+
 
 # Load OSLOVAL data
-intClncDat = loadEntity("syn1449480")$objects$xIntClinDat
-intCnvEset = loadEntity("syn1449473")$objects$xCnvDat
-intSurvObject = loadEntity("syn1449477")$objects$xIntSurvObj
-intExprEset = loadEntity("syn1449475")$objects$xExprDat
+intClncDat = loadEntity("syn1710251")$objects[[1]]
+intCnvEset = loadEntity("syn1710253")$objects[[1]]
+intSurvObject = loadEntity("syn1710257")$objects[[1]]
+intExprEset = loadEntity("syn1710255")$objects[[1]]
 
 oslo = list(expr = intExprEset, cnv = intCnvEset, clnc = intClncDat, surv = intSurvObject)
 
@@ -35,22 +37,22 @@ gdModel = GoldiloxModel$new()
 
 # train model
 gdModel$customTrain(
-metabric$Complete_METABRIC_Expression_Data, 
-metabric$Complete_METABRIC_Copy_Number_Data, 
-metabric$Complete_METABRIC_Clinical_Features_Data, 
-metabric$Complete_METABRIC_Clinical_Survival_Data_OS, 
-metabric$Complete_METABRIC_Clinical_Survival_Data_DSS
+metabric$expr,
+metabric$cnv, 
+metabric$clnc, 
+metabric$surv, 
+metabric$survdss
 )
 
 # get training score
 
 trainPredictions <- gdModel$customPredict(
-metabric$Complete_METABRIC_Expression_Data, 
-metabric$Complete_METABRIC_Copy_Number_Data,
-metabric$Complete_METABRIC_Clinical_Features_Data
+metabric$expr, 
+metabric$cnv,
+metabric$clnc
 )
 
-tr.ci = getCCDIdx(trainPredictions, metabric$Complete_METABRIC_Clinical_Survival_Data_OS);tr.ci
+tr.ci = getCCDIdx(trainPredictions, metabric$surv);tr.ci
 
 # Create prediction on OSLOVAL dataset
 
@@ -63,4 +65,6 @@ oslo$clnc
 # note that since the weights of the subclassifiers contain random factor, 
 # the CI will be slightly different each time
 oslo.ci = getCCDIdx(osloPredictions, oslo$surv);oslo.ci
+
+
 
