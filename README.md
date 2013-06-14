@@ -3,8 +3,7 @@ STM_clearScience
 
 Source code for creating figures in STM paper
 
-Re-create predictions in the DREAM7 BCC challenge
-=================================================
+###Re-create predictions in the DREAM7 BCC challenge
 
 The script for training the model using METABRIC and making predictions on OSLOVAL datasets is at:
 
